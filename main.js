@@ -120,13 +120,7 @@ var app = new Vue({
                 this.randomVerb();
             } else {
 
-                if (this.current_verb in Object.keys(this.streak)) {
-                    if (this.streak[this.current_verb] > 0) {
-                        this.streak[this.current_verb] -= 1
-                    }
-                } else {
-                    this.streak[this.current_verb] = 0
-                }
+
 
                 console.log([this.infinitif,this.preterit,this.part_pass,this.trad])
                 console.log(this.current_verbs[this.current_verb])
