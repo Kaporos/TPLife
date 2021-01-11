@@ -28,6 +28,7 @@ var app = new Vue({
       streak_to_known: 3,
       message: "",
       streak:{},
+      current_verbs: []
     },
     mounted: async function() {
         verbs = await axios.get("./data.json") //RECUPERE LA LISTE DES TP
@@ -58,13 +59,19 @@ var app = new Vue({
             if (nombre) {
                 this.nombre = nombre
                 this.verbs = this.verbs.splice(0,nombre)
+                this.current_verbs = chance.pickset(this.verbs, 10)
+
+                for (verb of this.current_verbs){
+                    this.verbs = removeItemOnce(this.verbs, verb)
+                }
+
                 this.state = "game";
                 this.randomVerb()
             }
         },
         randomVerb: async function(){
-            verb = await chance.pickone(this.verbs);
-            verb_index = this.verbs.indexOf(verb);
+            verb = await chance.pickone(this.current_verbs);
+            verb_index = this.current_verbs.indexOf(verb);
 
             to_player = ["","","",""]
 
@@ -88,7 +95,7 @@ var app = new Vue({
 
         },
         submit: async function() {
-            if (arraysEqual(this.verbs[this.current_verb],[this.infinitif,this.preterit,this.part_pass,this.trad])){
+            if (arraysEqual(this.current_verbs[this.current_verb],[this.infinitif,this.preterit,this.part_pass,this.trad])){
 
 
                 if (this.current_verb in Object.keys(this.streak)) {
@@ -98,8 +105,12 @@ var app = new Vue({
                 }
 
                 if (this.streak[this.current_verb] == this.streak_to_known) {
-                    this.verbs.splice(this.current_verb,1)
+                    this.current_verbs.splice(this.current_verb,1)
+                    new_verb = chance.pickone(this.verbs)
+                    this.current_verbs.push(new_verb);
+                    this.verbs = removeItemOnce(this.verbs, new_verb)
                     this.connus += 1
+
                 }
 
                 if (this.connus == this.nombre) {
@@ -109,9 +120,17 @@ var app = new Vue({
                 this.randomVerb();
             } else {
 
+                if (this.current_verb in Object.keys(this.streak)) {
+                    if (this.streak[this.current_verb] > 0) {
+                        this.streak[this.current_verb] -= 1
+                    }
+                } else {
+                    this.streak[this.current_verb] = 0
+                }
+
                 console.log([this.infinitif,this.preterit,this.part_pass,this.trad])
-                console.log(this.verbs[this.current_verb])
-                this.message = "Incorrect !<br> C'était "+this.verbs[this.current_verb].join(" - ")
+                console.log(this.current_verbs[this.current_verb])
+                this.message = "Incorrect !<br> C'était "+this.current_verbs[this.current_verb].join(" - ")
                 this.reset_fields()
                
     
