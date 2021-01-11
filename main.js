@@ -103,8 +103,10 @@ var app = new Vue({
                     this.streak[this.current_verb] = 1
                 }
 
-                if (this.streak[this.current_verb] == this.streak_to_known) {
-                    this.current_verbs.splice(this.current_verb,1)
+            
+
+                if (this.streak[this.current_verb] >= this.streak_to_known) {
+                    this.current_verbs = removeItemOnce(this.current_verbs,this.current_verbs[this.current_verb])
                     new_verb = chance.pickone(this.verbs)
                     this.current_verbs.push(new_verb);
                     this.verbs = removeItemOnce(this.verbs, new_verb)
