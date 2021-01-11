@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TPLife</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="app">
+
+        <div id="to_show" style="display: none;">
+
+            <section id="menu" v-if="state == 'menu'">
+
+                <div id="brand_title">
+                    <h1>TPLife</h1>
+                </div>
+
+                <div id="verbs_selection">
+
+
+                    <button @click="startGame()">Commencer a étudier</button>
+
+                    
+
+                </div>
+
+
+
+            </section>
+
+            <section id="game" v-if="state == 'game'">
+
+                <h1>Connus : {{connus}}/{{nombre}}</h1>
+
+                <section id="typing_level">
+
+                    <div id="entries">
+                        <input class="entry" v-model="infinitif" type="text" name="" id="">
+                        <p>-</p>
+                        <input class="entry" v-model="preterit" type="text" name="" id="">
+                        <p>-</p>
+                        <input class="entry" v-model="part_pass" type="text" name="" id="">
+                        <p>-</p>
+                        <input class="entry" v-model="trad" type="text" name="" id="">
+
+                    </div>
+
+                    <button @click="submit">Valider</button>
+
+                    <h1 v-html="message"></h1>
+        
+
+                    
+
+                </section>
+                
+
+            </section>
+        </div>
+  
+    </div>
+    <script src="http://chancejs.com/chance.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
