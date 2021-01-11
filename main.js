@@ -33,7 +33,6 @@ var app = new Vue({
     mounted: async function() {
         verbs = await axios.get("./data.json") //RECUPERE LA LISTE DES TP
         this.verbs = verbs["data"]['verbs']
-        this.randomVerb();
         document.getElementById("to_show").style.display = "block"
 
     },
@@ -98,7 +97,7 @@ var app = new Vue({
             if (arraysEqual(this.current_verbs[this.current_verb],[this.infinitif,this.preterit,this.part_pass,this.trad])){
 
 
-                if (this.current_verb in Object.keys(this.streak)) {
+                if (this.streak[this.current_verb] != undefined) {
                     this.streak[this.current_verb] += 1
                 } else {
                     this.streak[this.current_verb] = 1
